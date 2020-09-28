@@ -1,11 +1,16 @@
 from moviepy.editor import *
-
 import os
-from os import listdir
-from os.path import isfile, join
-files = [f for f in listdir("./") if isfile(join("./", f))]
+import sys
 
-for file in files:
-    if ".mp4" in file:
-        video = VideoFileClip(os.path.join(file))
-        video.audio.write_audiofile(os.path.join(file.split(".")[0] + ".mp3"))
+
+def main(dirpath):
+	for file in [f for f in os.listdir(dirpath) if f.endswith(".mp4")]:
+		video = VideoFileClip(os.path.join(dirpath, file))
+		video.audio.write_audiofile(os.path.join(dirpath, file.split(".")[0] + ".mp3"))
+
+
+if __name__ == "__main__":
+	if len(sys.argv) == 2:
+		main(sys.argv[1])
+	else:
+		main("./")
